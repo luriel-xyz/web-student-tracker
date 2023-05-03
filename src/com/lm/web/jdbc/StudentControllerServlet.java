@@ -61,9 +61,8 @@ public class StudentControllerServlet extends HttpServlet {
 
 	/**
 	 * 
-	 * Handles HTTP GET requests sent to the servlet. Calls the listStudents()
-	 * method to retrieve a list of students and forwards the list to the
-	 * "list-students.jsp" JSP page.
+	 * This method handles HTTP GET requests and routes the request to the
+	 * appropriate method based on the "command" parameter.
 	 * 
 	 * @param request  the HttpServletRequest object containing the request
 	 *                 information
@@ -75,7 +74,29 @@ public class StudentControllerServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try {
-			listStudents(request, response);
+			// read the "command" parameter
+			String command = request.getParameter("command");
+
+			if (command == null) {
+				command = "LIST";
+			}
+
+			// route to the appropriate method
+			switch (command) {
+			case "LIST":
+				listStudents(request, response);
+				break;
+			case "ADD":
+				addStudent(request, response);
+				break;
+			case "UPDATE":
+				break;
+			case "DELETE":
+				break;
+			default:
+				listStudents(request, response);
+				break;
+			}
 		} catch (Exception e) {
 			throw new ServletException(e);
 		}
@@ -105,6 +126,32 @@ public class StudentControllerServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/list-students.jsp");
 		dispatcher.forward(request, response);
 
+	}
+
+	/**
+	 * This method adds a new student to the database based on the information
+	 * provided in the HTTP request.
+	 * 
+	 * @param request  the HTTP request object
+	 * @param response the HTTP response object
+	 *
+	 * @throws Exception if there is an error adding the student or retrieving the
+	 *                   student list
+	 */
+	private void addStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// read student info from form data
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+
+		// create a new student object
+		Student student = new Student(firstName, lastName, email);
+
+		// add the student to the database
+		this.studentDbUtil.addStudent(student);
+
+		// send back to main page with the updated list
+		listStudents(request, response);
 	}
 
 }

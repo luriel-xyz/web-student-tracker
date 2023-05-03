@@ -20,6 +20,8 @@
 
 	<div id="container">
 		<div id="content">
+			<input type="button" class="add-student-button" value="Add student"
+				onclick="window.location.href='add-student-form.jsp'; return false;" />
 			<table>
 				<tr>
 					<th>First name</th>

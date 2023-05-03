@@ -2,6 +2,7 @@ package com.lm.web.jdbc;
 
 import java.sql.Statement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -82,6 +83,33 @@ public class StudentDbUtil {
 			close(connection, statement, resultSet);
 		}
 
+	}
+
+	/**
+	 * Adds a new student to the database.
+	 *
+	 * @param student the student to be added
+	 *
+	 * @throws Exception if an error occurs while accessing the database
+	 */
+	public void addStudent(Student student) throws Exception {
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+
+		try {
+			connection = this.dataSource.getConnection();
+
+			String sql = "INSERT INTO student (first_name, last_name, email) VALUES (?, ?, ?)";
+			pStatement = connection.prepareStatement(sql);
+
+			pStatement.setString(1, student.getFirstName());
+			pStatement.setString(2, student.getLastName());
+			pStatement.setString(3, student.getEmail());
+
+			pStatement.execute();
+		} finally {
+			close(connection, pStatement, null);
+		}
 	}
 
 	/**
