@@ -4,6 +4,7 @@ import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -106,6 +107,95 @@ public class StudentDbUtil {
 			pStatement.setString(2, student.getLastName());
 			pStatement.setString(3, student.getEmail());
 
+			pStatement.execute();
+		} finally {
+			close(connection, pStatement, null);
+		}
+	}
+
+	/**
+	 * Retrieves a student with the specified ID from the database.
+	 * 
+	 * @param studentId the ID of the student to retrieve
+	 * 
+	 * @return the Student object representing the selected student
+	 * 
+	 * @throws Exception if there is an error retrieving the student from the
+	 *                   database
+	 */
+	public Student getStudent(String studentId) throws Exception {
+		Student student = null;
+
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+		ResultSet resultSet = null;
+		int studentIdInt;
+
+		try {
+			// convert student id to int
+			studentIdInt = Integer.parseInt(studentId);
+
+			// get connection to database
+			connection = this.dataSource.getConnection();
+
+			// create sql to get selected student
+			String sql = "SELECT * FROM student WHERE id = ?";
+
+			// create prepared statement
+			pStatement = connection.prepareStatement(sql);
+
+			// set params
+			pStatement.setInt(1, studentIdInt);
+
+			// execute statement
+			resultSet = pStatement.executeQuery();
+
+			// retrieve data from result row
+			if (resultSet.next()) {
+				String firstName = resultSet.getString("first_name");
+				String lastName = resultSet.getString("last_name");
+				String email = resultSet.getString("email");
+
+				student = new Student(studentIdInt, firstName, lastName, email);
+			} else {
+				throw new Exception("Could not find student with an id: " + studentId);
+			}
+		} finally {
+			close(connection, pStatement, resultSet);
+		}
+
+		return student;
+	}
+
+	/**
+	 * Updates a student record in the database.
+	 *
+	 * @param student the Student object containing the updated information.
+	 * 
+	 * @throws Exception if there is an error executing the SQL statement or closing
+	 *                   the database connection.
+	 */
+	public void updateStudent(Student student) throws Exception {
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+
+		try {
+			// get connection to database
+			connection = this.dataSource.getConnection();
+
+			// create sql to update the student
+			String sql = "UPDATE student SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
+
+			// create prepared statement
+			pStatement = connection.prepareStatement(sql);
+
+			// set params
+			pStatement.setString(1, student.getFirstName());
+			pStatement.setString(2, student.getLastName());
+			pStatement.setString(3, student.getEmail());
+			pStatement.setInt(4, student.getId());
+
+			// execute statement
 			pStatement.execute();
 		} finally {
 			close(connection, pStatement, null);
