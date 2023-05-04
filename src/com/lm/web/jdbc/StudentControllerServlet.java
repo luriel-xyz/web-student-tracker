@@ -89,7 +89,11 @@ public class StudentControllerServlet extends HttpServlet {
 			case "ADD":
 				addStudent(request, response);
 				break;
+			case "LOAD":
+				loadStudent(request, response);
+				break;
 			case "UPDATE":
+				updateStudent(request, response);
 				break;
 			case "DELETE":
 				break;
@@ -149,6 +153,48 @@ public class StudentControllerServlet extends HttpServlet {
 
 		// add the student to the database
 		this.studentDbUtil.addStudent(student);
+
+		// send back to main page with the updated list
+		listStudents(request, response);
+	}
+
+	/**
+	 * Loads a student with the given ID and forwards the request to the update
+	 * student form page.
+	 * 
+	 * @param request  the HTTP servlet request object
+	 * @param response the HTTP servlet response object
+	 * 
+	 * @throws Exception if there is an error while loading the student or
+	 *                   forwarding the request
+	 */
+	private void loadStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// read student id from form data
+		String studentId = request.getParameter("studentId");
+
+		// get student from database (db util)
+		Student student = this.studentDbUtil.getStudent(studentId);
+
+		// place student in the request attribute
+		request.setAttribute("STUDENT", student);
+
+		// send to update-student-form.jsp
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/update-student-form.jsp");
+		dispatcher.forward(request, response);
+	}
+
+	private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// read student info from form data
+		int studentId = Integer.parseInt(request.getParameter("studentId"));
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String email = request.getParameter("email");
+
+		// create a new student object
+		Student student = new Student(studentId, firstName, lastName, email);
+
+		// perform update on database
+		this.studentDbUtil.updateStudent(student);
 
 		// send back to main page with the updated list
 		listStudents(request, response);
