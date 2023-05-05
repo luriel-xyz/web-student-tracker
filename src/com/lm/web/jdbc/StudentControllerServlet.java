@@ -96,6 +96,7 @@ public class StudentControllerServlet extends HttpServlet {
 				updateStudent(request, response);
 				break;
 			case "DELETE":
+				deleteStudent(request, response);
 				break;
 			default:
 				listStudents(request, response);
@@ -121,7 +122,7 @@ public class StudentControllerServlet extends HttpServlet {
 	 */
 	private void listStudents(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// get students from db util
-		List<Student> students = this.studentDbUtil.getStudents();
+		List<Student> students = this.studentDbUtil.getAll();
 
 		// add students to the request
 		request.setAttribute("STUDENT_LIST", students);
@@ -152,7 +153,7 @@ public class StudentControllerServlet extends HttpServlet {
 		Student student = new Student(firstName, lastName, email);
 
 		// add the student to the database
-		this.studentDbUtil.addStudent(student);
+		this.studentDbUtil.add(student);
 
 		// send back to main page with the updated list
 		listStudents(request, response);
@@ -173,7 +174,7 @@ public class StudentControllerServlet extends HttpServlet {
 		String studentId = request.getParameter("studentId");
 
 		// get student from database (db util)
-		Student student = this.studentDbUtil.getStudent(studentId);
+		Student student = this.studentDbUtil.get(studentId);
 
 		// place student in the request attribute
 		request.setAttribute("STUDENT", student);
@@ -183,6 +184,12 @@ public class StudentControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
+	/**
+	 * Updates a student's information based on the data submitted through a form.
+	 * 
+	 * @param request  the HTTP request object containing the student's information
+	 * @param response the HTTP servlet response object
+	 */
 	private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// read student info from form data
 		int studentId = Integer.parseInt(request.getParameter("studentId"));
@@ -194,8 +201,20 @@ public class StudentControllerServlet extends HttpServlet {
 		Student student = new Student(studentId, firstName, lastName, email);
 
 		// perform update on database
-		this.studentDbUtil.updateStudent(student);
+		this.studentDbUtil.update(student);
 
+		// send back to main page with the updated list
+		listStudents(request, response);
+	}
+
+	private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		// read student id from form data
+		String studentId = request.getParameter("studentId");
+
+		// delete student from database
+		this.studentDbUtil.delete(studentId);
+
+		// redirect to list-student.jsp page
 		// send back to main page with the updated list
 		listStudents(request, response);
 	}

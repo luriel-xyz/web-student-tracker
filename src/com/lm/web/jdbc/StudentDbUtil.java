@@ -45,7 +45,7 @@ public class StudentDbUtil {
 	 * @throws Exception if an error occurs while retrieving the students from the
 	 *                   database
 	 */
-	public List<Student> getStudents() throws Exception {
+	public List<Student> getAll() throws Exception {
 		List<Student> students = new ArrayList<>();
 
 		Connection connection = null;
@@ -93,7 +93,7 @@ public class StudentDbUtil {
 	 *
 	 * @throws Exception if an error occurs while accessing the database
 	 */
-	public void addStudent(Student student) throws Exception {
+	public void add(Student student) throws Exception {
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 
@@ -123,7 +123,7 @@ public class StudentDbUtil {
 	 * @throws Exception if there is an error retrieving the student from the
 	 *                   database
 	 */
-	public Student getStudent(String studentId) throws Exception {
+	public Student get(String studentId) throws Exception {
 		Student student = null;
 
 		Connection connection = null;
@@ -175,7 +175,7 @@ public class StudentDbUtil {
 	 * @throws Exception if there is an error executing the SQL statement or closing
 	 *                   the database connection.
 	 */
-	public void updateStudent(Student student) throws Exception {
+	public void update(Student student) throws Exception {
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 
@@ -194,6 +194,42 @@ public class StudentDbUtil {
 			pStatement.setString(2, student.getLastName());
 			pStatement.setString(3, student.getEmail());
 			pStatement.setInt(4, student.getId());
+
+			// execute statement
+			pStatement.execute();
+		} finally {
+			close(connection, pStatement, null);
+		}
+	}
+
+	/**
+	 * Deletes a student with the specified ID from the database.
+	 * 
+	 * @param studentId the ID of the student to delete
+	 * 
+	 * @throws Exception if there is an error accessing the database or if the
+	 *                   student ID is not valid
+	 */
+	public void delete(String studentId) throws Exception {
+		Connection connection = null;
+		PreparedStatement pStatement = null;
+		int studentIdInt;
+
+		try {
+			// convert student id to int
+			studentIdInt = Integer.parseInt(studentId);
+
+			// get connection to database
+			connection = this.dataSource.getConnection();
+
+			// create sql to delete the student
+			String sql = "DELETE FROM student WHERE id = ?";
+
+			// create prepared statement
+			pStatement = connection.prepareStatement(sql);
+
+			// set param
+			pStatement.setInt(1, studentIdInt);
 
 			// execute statement
 			pStatement.execute();
