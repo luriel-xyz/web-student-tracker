@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS student;
 
 CREATE TABLE student (
-  student_id SERIAL PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   first_name varchar(45) default null,
   last_name varchar(45) default null,
   email varchar(45) default null
