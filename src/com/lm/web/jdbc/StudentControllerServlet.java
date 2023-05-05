@@ -174,11 +174,7 @@ public class StudentControllerServlet extends HttpServlet {
 		String studentId = request.getParameter("studentId");
 
 		// get student from database (db util)
-<<<<<<< HEAD
 		Student student = this.studentDbUtil.get(studentId);
-=======
-		Student student = this.studentDbUtil.getStudent(studentId);
->>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 
 		// place student in the request attribute
 		request.setAttribute("STUDENT", student);
@@ -188,15 +184,12 @@ public class StudentControllerServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-<<<<<<< HEAD
 	/**
 	 * Updates a student's information based on the data submitted through a form.
 	 * 
 	 * @param request  the HTTP request object containing the student's information
 	 * @param response the HTTP servlet response object
 	 */
-=======
->>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 	private void updateStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// read student info from form data
 		int studentId = Integer.parseInt(request.getParameter("studentId"));
@@ -208,17 +201,12 @@ public class StudentControllerServlet extends HttpServlet {
 		Student student = new Student(studentId, firstName, lastName, email);
 
 		// perform update on database
-<<<<<<< HEAD
 		this.studentDbUtil.update(student);
-=======
-		this.studentDbUtil.updateStudent(student);
->>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 
 		// send back to main page with the updated list
 		listStudents(request, response);
 	}
 
-<<<<<<< HEAD
 	private void deleteStudent(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		// read student id from form data
 		String studentId = request.getParameter("studentId");
@@ -231,6 +219,4 @@ public class StudentControllerServlet extends HttpServlet {
 		listStudents(request, response);
 	}
 
-=======
->>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 }
