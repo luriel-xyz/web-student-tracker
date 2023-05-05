@@ -123,7 +123,11 @@ public class StudentDbUtil {
 	 * @throws Exception if there is an error retrieving the student from the
 	 *                   database
 	 */
+<<<<<<< HEAD
 	public Student get(String studentId) throws Exception {
+=======
+	public Student getStudent(String studentId) throws Exception {
+>>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 		Student student = null;
 
 		Connection connection = null;
@@ -175,7 +179,11 @@ public class StudentDbUtil {
 	 * @throws Exception if there is an error executing the SQL statement or closing
 	 *                   the database connection.
 	 */
+<<<<<<< HEAD
 	public void update(Student student) throws Exception {
+=======
+	public void updateStudent(Student student) throws Exception {
+>>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 		Connection connection = null;
 		PreparedStatement pStatement = null;
 
@@ -203,6 +211,7 @@ public class StudentDbUtil {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * Deletes a student with the specified ID from the database.
 	 * 
 	 * @param studentId the ID of the student to delete
@@ -239,6 +248,8 @@ public class StudentDbUtil {
 	}
 
 	/**
+=======
+>>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 	 * Closes the provided JDBC objects.
 	 * 
 	 * @param connection the Connection object to close

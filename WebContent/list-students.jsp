@@ -33,6 +33,7 @@
 				<c:forEach var="student" items="${STUDENT_LIST}">
 					<!-- set up a link for each student -->
 					<!-- StudentControllerServlet?command=LOAD&studentId=<id of the student> -->
+<<<<<<< HEAD
 					<c:url var="loadURL" value="StudentControllerServlet">
 						<c:param name="command" value="LOAD" />
 						<c:param name="studentId" value="${student.id}" />
@@ -44,12 +45,25 @@
 						<c:param name="studentId" value="${student.id}" />
 					</c:url>
 
+=======
+					<c:url var="link" value="StudentControllerServlet">
+						<c:param name="command" value="LOAD" />
+						<c:param name="studentId" value="${student.id}" />	
+					</c:url>
+					
+>>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 					<tr>
 						<td>${student.firstName}</td>
 						<td>${student.lastName}</td>
 						<td>${student.email}</td>
+<<<<<<< HEAD
 						<td><a href="${loadURL}">Update</a> | <a href="${deleteURL}"
 							onclick="if (!confirm('Delete this student?')) return false;">Delete</a></td>
+=======
+						<td>
+							<a href="${link}">Update</a>
+						</td>
+>>>>>>> 346e4c46f167231bf40e9f9ce6de28e4ddcc6f94
 					</tr>
 				</c:forEach>
 
