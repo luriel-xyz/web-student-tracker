@@ -8,16 +8,24 @@ label {
 	display: block;
 	text-align: right;
 	margin-right: 10px;
-	margin-top: 8px;
+	margin-top: 16px;
 	margin-bottom: 8px;
+	color: #616161;
 }
 
 input {
 	width: 250px;
-	border: 1px solid #666;
-	border-radius: 5px;
-	padding: 4px;
+	border: none;
+	border-bottom: 1px solid #616161;
 	font-size: 16px;
+	color: #424242;
+	padding-bottom: 5px;
+	margin-top: 8px;
+}
+
+input:focus {
+	outline: none;
+	border-bottom: 2px solid #0775d3;
 }
 
 .save {
@@ -25,23 +33,29 @@ input {
 	width: 130px;
 	padding: 5px 10px;
 	margin-top: 30px;
-	background: #cccccc;
+	background-color: #0775d3;
+	color: #fff;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
 }
 
 table {
-	border-style: none;
+	border-collapse: collapse;
 	width: 50%;
+	margin-top: 16px;
 }
 
 tr:nth-child(even) {
-	background: #FFFFFF
+	background-color: #f5f5f5;
 }
 
 tr:nth-child(odd) {
-	background: #FFFFFF
+	background-color: #fff;
 }
 
 tr {
-	border-style: none;
+	border-top: 1px solid #e0e0e0;
 	text-align: left;
+	color: #424242;
 }
